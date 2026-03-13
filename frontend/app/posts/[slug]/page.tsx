@@ -82,9 +82,9 @@ export default async function PostPage(props: Props) {
             </div>
             <article className="gap-6 grid max-w-4xl">
               <div className="">
-                {post?.coverImage && (
+                {post?.coverImage && post.coverImage.asset?._ref && (
                   <Image
-                    id={post.coverImage.asset?._ref || ''}
+                    id={post.coverImage.asset._ref}
                     alt={post.coverImage.alt || ''}
                     className="rounded-sm w-full"
                     width={1024}
