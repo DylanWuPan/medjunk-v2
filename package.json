@@ -18,13 +18,12 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "npx run-p --print-label dev:*",
+    "dev": "npm run schema:extract && npx run-p --print-label dev:next dev:studio-serve",
     "dev:next": "npm run dev --workspace=frontend",
-    "dev:studio": "npm run dev --workspace=studio",
+    "dev:studio-serve": "npm run dev --workspace=studio",
     "format": "prettier --cache --write .",
     "import-sample-data": "cd studio && sanity dataset import sample-data.tar.gz --replace",
-    "lint": "npm run lint --workspace=frontend",
-    "type-check": "npm run type-check --workspaces"
+    "schema:extract": "cd studio && sanity schema extract --enforce-required-fields --path ../schema.json"
   },
   "prettier": "@sanity/prettier-config",
   "devDependencies": {
