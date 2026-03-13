@@ -22,11 +22,11 @@ export function resolveOpenGraphImage(
   height = 627,
 ) {
   if (!image) return
+  if (!(image as {asset?: unknown})?.asset) return // add this line
   const url = urlForImage(image)?.width(1200).height(627).fit('crop').url()
   if (!url) return
   return {url, alt: (image as {alt?: string})?.alt || '', width, height}
 }
-
 // Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
 export function linkResolver(link: Link | DereferencedLink | undefined) {
   if (!link) return null
