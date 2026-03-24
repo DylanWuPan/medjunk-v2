@@ -5,10 +5,9 @@ import type {Metadata} from 'next'
 import {Inter, IBM_Plex_Mono} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
-import {Analytics} from '@vercel/analytics/next'
-
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
+import {Analytics} from '@vercel/analytics/next'
 
 import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
@@ -74,8 +73,17 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
       <body>
         <section className="min-h-screen pt-24">
+          {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
+          <Toaster />
+          {isDraftMode && (
+            <>
+              <DraftModeToast />
+              {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
+              <VisualEditing />
+            </>
+          )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-          {isDraftMode && <SanityLive onError={handleError} />}
+          <SanityLive onError={handleError} />
           <Header />
           <main className="">{children}</main>
           <Footer />
