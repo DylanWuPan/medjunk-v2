@@ -99,3 +99,12 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `)
+
+export const townPagesQuery = defineQuery(`
+  *[_type == "page" && slug.current match "*-junk-removal"]
+  | order(slug.current asc) {
+    name,
+    heading,
+    "slug": slug.current
+  }
+`)

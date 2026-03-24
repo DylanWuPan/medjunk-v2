@@ -17,7 +17,7 @@ const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
       key={_id}
       className="border border-gray-200 rounded-sm p-6 bg-gray-50 flex flex-col justify-between transition-colors hover:bg-white relative"
     >
-      <Link className="hover:text-brand underline transition-colors" href={`/posts/${slug}`}>
+      <Link className="hover:text-brand underline transition-colors" href={`/blog/${slug}`}>
         <span className="absolute inset-0 z-10" />
       </Link>
       <div>
@@ -65,9 +65,12 @@ export const MorePosts = async ({skip, limit}: {skip: string; limit: number}) =>
     return null
   }
 
+  // Sort by date descending
+  data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
   return (
-    <Posts heading={`Recent Posts (${data?.length})`}>
-      {data?.map((post: AllPostsQueryResult[number]) => (
+    <Posts heading={`Recent Blog Posts (${data.length})`}>
+      {data.map((post: AllPostsQueryResult[number]) => (
         <Post key={post._id} post={post} />
       ))}
     </Posts>
@@ -81,11 +84,11 @@ export const AllPosts = async () => {
     return <OnBoarding />
   }
 
+  // Sort by date descending
+  data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
   return (
-    <Posts
-      heading="Recent Posts"
-      subHeading={`${data.length === 1 ? 'This blog post is' : `These ${data.length} blog posts are`} populated from your Sanity Studio.`}
-    >
+    <Posts heading="Recent Blog Posts" subHeading={`Explore Medfield Junk's Blog Posts!`}>
       {data.map((post: AllPostsQueryResult[number]) => (
         <Post key={post._id} post={post} />
       ))}

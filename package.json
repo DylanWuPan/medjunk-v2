@@ -18,7 +18,7 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "npm run schema:extract && npx run-p --print-label dev:next dev:studio-serve",
+    "dev": "npx run-p --print-label dev:next dev:studio-serve",
     "dev:next": "npm run dev --workspace=frontend",
     "dev:studio-serve": "npm run dev --workspace=studio",
     "format": "prettier --cache --write .",
@@ -30,5 +30,8 @@
     "@sanity/prettier-config": "^2.0.2",
     "npm-run-all2": "^5.0.2",
     "prettier": "^3.7.3"
+  },
+  "dependencies": {
+    "@juggle/resize-observer": "^3.4.0"
   }
 }

@@ -35,7 +35,7 @@ const homeLocation = {
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
     case 'post':
-      return slug ? `/posts/${slug}` : undefined
+      return slug ? `/blog/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
     default:
@@ -47,7 +47,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Sanity + Next.js Starter Template',
+  title: 'Medfield Junk',
 
   projectId,
   dataset,
@@ -73,7 +73,7 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/posts/:slug',
+            route: '/blog/:slug',
             filter: `_type == "post" && slug.current == $slug || _id == $slug`,
           },
         ]),
