@@ -5,6 +5,8 @@ import type {Metadata} from 'next'
 import {Inter, IBM_Plex_Mono} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
+import {Analytics} from '@vercel/analytics/next'
+
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
 
@@ -79,6 +81,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           <Footer />
         </section>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
