@@ -11,7 +11,6 @@ import {dataAttr} from '@/sanity/lib/utils'
 interface Town {
   name: string
   slug: string
-  _updatedAt?: string
 }
 
 export default async function Page() {
@@ -66,26 +65,42 @@ export default async function Page() {
           </div>
         </div>
       </div>
-      <div className="bg-white border-t border-gray-100">
-        <div className="container py-16">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold tracking-tight">Service Areas</h2>
-            <p className="text-gray-600 mt-2">We proudly serve these towns across Massachusetts</p>
+
+      <div className="border-t border-gray-100 py-16">
+        <div className="container">
+          {/* Header */}
+          <div className="text-center mb-10 animate-fade-up">
+            <h2 className="text-4xl font-medium tracking-tight">Service Areas</h2>
+            <p className="text-gray-500 mt-2 text-md">
+              We proudly serve these towns across Massachusetts
+            </p>
+            <span className="inline-flex items-center gap-1.5 mt-3 text-sm text-gray-400 bg-gray-50 border border-gray-100 rounded-full px-3 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand inline-block" />
+              {towns.length} towns covered
+            </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {towns?.map((town: Town) => (
+          {/* Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-4xl mx-auto">
+            {towns.map((town) => (
               <Link
                 key={town.slug}
                 href={`/${town.slug}`}
-                className="p-3 border rounded-lg text-center hover:border-brand hover:shadow transition"
+                className="
+    group flex items-center justify-center gap-1.5 px-3 py-2.5
+    border border-gray-100 rounded-lg bg-white text-md
+    hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-0.5
+    active:scale-[0.97] transition-all duration-150
+  "
               >
+                <span className="w-1 h-1 rounded-full bg-gray-300 group-hover:bg-brand transition-colors shrink-0" />
                 {town.name.replace(' Junk Removal', '')}
               </Link>
             ))}
           </div>
         </div>
       </div>
+
       <div className="border-t border-gray-100 bg-gray-50">
         <div className="container">
           <aside className="py-12 sm:py-20">

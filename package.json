@@ -32,6 +32,7 @@
     "prettier": "^3.7.3"
   },
   "dependencies": {
-    "@juggle/resize-observer": "^3.4.0"
+    "@juggle/resize-observer": "^3.4.0",
+    "resend": "^6.10.0"
   }
 }
