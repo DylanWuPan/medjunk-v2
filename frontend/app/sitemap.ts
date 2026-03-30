@@ -1,58 +1,65 @@
 import {MetadataRoute} from 'next'
 import {sanityFetch} from '@/sanity/lib/live'
-import {sitemapData} from '@/sanity/lib/queries'
+import {sitemapData, townPagesQuery} from '@/sanity/lib/queries'
 import {headers} from 'next/headers'
 
-/**
- * This file creates a sitemap (sitemap.xml) for the application. Learn more about sitemaps in Next.js here: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
- * Be sure to update the `changeFrequency` and `priority` values to match your application's content.
- */
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const allPostsAndPages = await sanityFetch({
-    query: sitemapData,
-  })
+  const allPostsAndPages = await sanityFetch({query: sitemapData})
+  const allTowns = await sanityFetch({query: townPagesQuery})
+
   const headersList = await headers()
+  const host = headersList.get('host')
+  const domain = `https://${host}`
+
   const sitemap: MetadataRoute.Sitemap = []
-  const domain: string = headersList.get('host') as string
+
+  // Homepage
   sitemap.push({
-    url: domain as string,
+    url: domain,
     lastModified: new Date(),
     priority: 1,
     changeFrequency: 'monthly',
   })
 
-  if (allPostsAndPages != null && allPostsAndPages.data.length != 0) {
-    let priority: number
-    let changeFrequency:
-      | 'monthly'
-      | 'always'
-      | 'hourly'
-      | 'daily'
-      | 'weekly'
-      | 'yearly'
-      | 'never'
-      | undefined
-    let url: string
-
+  // Regular pages and posts
+  if (allPostsAndPages?.data?.length) {
     for (const p of allPostsAndPages.data) {
+      let priority: number
+      let changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
+      let url: string
+
       switch (p._type) {
         case 'page':
           priority = 0.8
-          changeFrequency = 'monthly'
+          changeFrequency = 'weekly'
           url = `${domain}/${p.slug}`
           break
         case 'post':
           priority = 0.5
-          changeFrequency = 'never'
+          changeFrequency = 'weekly'
           url = `${domain}/blog/${p.slug}`
           break
+        default:
+          continue
       }
+
       sitemap.push({
+        url,
         lastModified: p._updatedAt || new Date(),
         priority,
         changeFrequency,
-        url,
+      })
+    }
+  }
+
+  // Town pages
+  if (allTowns?.data?.length) {
+    for (const town of allTowns.data) {
+      sitemap.push({
+        url: `${domain}/${town.slug}`,
+        lastModified: town._updatedAt || new Date(),
+        priority: 0.8,
+        changeFrequency: 'monthly',
       })
     }
   }
