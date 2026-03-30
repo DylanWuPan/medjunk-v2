@@ -105,6 +105,7 @@ export const townPagesQuery = defineQuery(`
   | order(slug.current asc) {
     name,
     heading,
-    "slug": slug.current
+    "slug": slug.current,
+      _updatedAt
   }
 `)

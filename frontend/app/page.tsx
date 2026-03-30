@@ -11,6 +11,7 @@ import {dataAttr} from '@/sanity/lib/utils'
 interface Town {
   name: string
   slug: string
+  _updatedAt?: string
 }
 
 export default async function Page() {
