@@ -35,7 +35,7 @@ const homeLocation = {
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
     case 'post':
-      return slug ? `/blog/${slug}` : undefined
+      return slug ? `/posts/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
     default:
@@ -47,7 +47,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Medfield Junk',
+  title: 'MedJunk V2 Studio',
 
   projectId,
   dataset,
@@ -58,7 +58,7 @@ export default defineConfig({
       previewUrl: {
         origin: SANITY_STUDIO_PREVIEW_URL,
         previewMode: {
-          enable: `/api/draft-mode/enable?secret=${process.env.SANITY_API_TOKEN}`,
+          enable: '/api/draft-mode/enable',
         },
       },
       resolve: {
@@ -73,7 +73,7 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/blog/:slug',
+            route: '/posts/:slug',
             filter: `_type == "post" && slug.current == $slug || _id == $slug`,
           },
         ]),
