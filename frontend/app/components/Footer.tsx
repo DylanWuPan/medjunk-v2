@@ -39,7 +39,7 @@ export default function Footer() {
                 className="flex items-center gap-2 hover:text-black"
               >
                 <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="Phone" />
-                (774) 688-0012
+                (617) 922-9752
               </Link>
 
               <Link
