@@ -33,7 +33,7 @@ export default function Footer() {
               <h4 className="font-semibold text-black text-lg">Contact</h4>
 
               <Link
-                href="tel:7746880012"
+                href="tel:6179229752"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-black"
