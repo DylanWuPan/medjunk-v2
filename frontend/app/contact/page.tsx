@@ -3,8 +3,17 @@
 import QuoteForm from '../components/QuoteForm'
 import Link from 'next/link'
 import Image from 'next/image'
+import {useState} from 'react'
 
 export default function ContactPage() {
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('medfieldjunk@gmail.com')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-16 gap-10">
       {/* Contact Info */}
@@ -18,18 +27,20 @@ export default function ContactPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <Link
             href="tel:6179229752"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800 w-full sm:w-auto justify-center"
           >
             <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="Phone" />
             (617) 922-9752
           </Link>
-          <Link
-            href="mailto:medfieldjunk@gmail.com"
-            className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800 w-full sm:w-auto justify-center"
+          <button
+            onClick={copyEmail}
+            className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800 w-full sm:w-auto justify-center cursor-pointer"
           >
             <Image src="/images/icons/email-icon.png" width={20} height={20} alt="Email" />
-            medfieldjunk@gmail.com
-          </Link>
+            {copied ? '✓ Copied!' : 'medfieldjunk@gmail.com'}
+          </button>
         </div>
 
         {/* Social bubbles */}

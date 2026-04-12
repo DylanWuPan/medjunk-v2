@@ -8,6 +8,7 @@ import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery, townPagesQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import {dataAttr} from '@/sanity/lib/utils'
+import Reviews from './components/Reviews'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
@@ -25,7 +26,7 @@ export default async function Page() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-black/50" />
           {/* Content */}
-          <div className="relative z-10 flex min-h-[100vh] flex-col items-center justify-center px-4 text-center">
+          <div className="relative z-10 flex min-h-[90vh] flex-col items-center justify-center px-4 text-center">
             <div className="flex flex-col items-center gap-4 bg-white/30 p-12 rounded-2xl backdrop-blur-xs">
               <p className="uppercase italic tracking-widest text-white/70 text-md">
                 Eastern MA&apos;s Premier Junk Removal Service
@@ -104,7 +105,7 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="border-t border-gray-100 py-16">
+      <div className="border-t border-b border-gray-100 py-16">
         <div className="container">
           {/* Header */}
           <div className="text-center mb-10 animate-fade-up">
@@ -138,6 +139,8 @@ export default async function Page() {
           </div>
         </div>
       </div>
+
+      <Reviews />
 
       <div className="border-t border-gray-100 bg-gray-50">
         <div className="container">
