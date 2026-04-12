@@ -59,7 +59,8 @@ export default function Header() {
                 </Link>
               </li>
 
-              <li className="sm:before:w-[1px] sm:before:bg-gray-200 before:block flex sm:gap-4 md:gap-6">
+              <li className="flex items-center sm:gap-4 md:gap-6">
+                <div className="hidden sm:block w-px h-6 bg-gray-900" />{' '}
                 <Link
                   className="rounded-full flex gap-4 items-center bg-brand hover:bg-black focus:bg-black py-2 px-4 justify-center sm:py-3 sm:px-6 text-white transition-colors duration-200"
                   href="/free-quote"

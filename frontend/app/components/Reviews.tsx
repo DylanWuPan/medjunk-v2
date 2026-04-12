@@ -111,26 +111,47 @@ export default function Reviews() {
   return (
     <section className="py-16 px-4">
       {/* Header */}
-      <div className="text-center space-y-1">
+      <div className="text-center space-y-3">
         <p className="text-sm uppercase tracking-widest text-gray-400">What our customers say</p>
         <h2 className="text-3xl font-bold tracking-tight">100% Five-Star Reviews</h2>
-        <Link
-          href="https://www.google.com/search?q=Medfield+Junk+Reviews"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm text-brand font-medium hover:opacity-70 transition pt-1"
-        >
-          See all reviews on Google
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
+
+        <div className="flex items-center justify-center gap-3 pt-1 flex-wrap">
+          <Link
+            href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-white shadow-sm hover:shadow-md text-gray-800 transition"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-          </svg>
-        </Link>
+            See all reviews on Google
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </Link>
+
+          <Link
+            href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2#lrd=0x6cf165bb75082545:0x10449d63e2f1c953,3,,,,"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-brand hover:bg-black text-white shadow-sm hover:shadow-md transition"
+          >
+            Leave us a review
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </Link>
+        </div>
       </div>
 
       {/* Carousel */}
