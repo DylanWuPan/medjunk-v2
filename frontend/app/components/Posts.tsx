@@ -31,7 +31,7 @@ const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
             <Avatar person={author} small={true} />
           </div>
         )}
-        <time className="text-gray-500 text-xs font-mono" dateTime={date}>
+        <time className="text-gray-500 text-xs" dateTime={date}>
           <DateComponent dateString={date} />
         </time>
       </div>

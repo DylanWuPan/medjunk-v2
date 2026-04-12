@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="py-16 flex flex-col gap-10 lg:flex-row lg:justify-between">
           {/* Left: Branding + CTA */}
           <div className="flex flex-col items-center lg:items-start gap-4">
-            <h3 className="text-4xl font-mono tracking-tight text-brand">Medfield Junk</h3>
+            <h3 className="text-4xl tracking-tight text-brand font-bold">Medfield Junk</h3>
             <p className="text-gray-600 text-lg text-center lg:text-left max-w-sm">
               Fast, reliable junk removal in Medfield and surrounding towns.
             </p>
@@ -20,9 +20,9 @@ export default function Footer() {
               href="/free-quote"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 rounded-full bg-black hover:bg-brand text-white px-6 py-3 text-lg transition"
+              className="mt-2 rounded-full bg-brand hover:bg-black text-white px-6 py-3 text-lg transition"
             >
-              Get a Free Quote
+              Get a Free Quote!
             </Link>
           </div>
 
