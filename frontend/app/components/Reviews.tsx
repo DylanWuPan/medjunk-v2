@@ -8,7 +8,11 @@ function StarRating() {
   return (
     <div className="flex gap-0.5">
       {[...Array(5)].map((_, i) => (
-        <svg key={i} className="w-7 h-7 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20">
+        <svg
+          key={i}
+          className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 fill-yellow-400"
+          viewBox="0 0 20 20"
+        >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
@@ -35,31 +39,33 @@ function ReviewCard({
     .toUpperCase()
 
   const styles: Record<string, string> = {
-    left: 'translate-x-[-50%] scale-75 opacity-30 z-0',
+    left: 'translate-x-[-55%] scale-75 opacity-30 z-0 pointer-events-none',
     center:
       'translate-x-0 scale-100 opacity-100 z-10 shadow-[0_0_30px_0px] shadow-brand/50 ring-1 ring-brand',
-    right: 'translate-x-[50%] scale-75 opacity-30 z-0',
-    hidden: 'translate-x-[0%] scale-75 opacity-0 z-0',
+    right: 'translate-x-[55%] scale-75 opacity-30 z-0 pointer-events-none',
+    hidden: 'translate-x-0 scale-75 opacity-0 z-0 pointer-events-none',
   }
 
   return (
     <div
-      className={`rounded-3xl absolute w-full max-w-2xl transition-all duration-500 ease-in-out ${styles[position]}`}
+      className={`rounded-3xl absolute w-[80vw] sm:w-full sm:max-w-xl transition-all duration-500 ease-in-out ${styles[position]}`}
     >
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 flex flex-col gap-3">
+      <div className="bg-white rounded-3xl p-5 sm:p-8 border border-gray-100 flex flex-col gap-3">
         <div className="flex flex-col items-center gap-2 text-center">
-          <div className="w-14 h-14 rounded-full bg-brand/10 text-brand font-bold text-lg flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-brand/10 text-brand font-bold text-base sm:text-lg flex items-center justify-center shrink-0">
             {initials}
           </div>
           <div>
-            <p className="font-semibold text-lg text-gray-900">{name}</p>
-            <p className="text-sm text-gray-400">{date}</p>
+            <p className="font-semibold text-base sm:text-lg text-gray-900">{name}</p>
+            <p className="text-xs sm:text-sm text-gray-400">{date}</p>
           </div>
         </div>
         <div className="flex justify-center">
           <StarRating />
         </div>
-        <p className="text-gray-700 leading-relaxed text-base text-center">{text}</p>
+        <p className="text-gray-700 leading-relaxed text-sm sm:text-base text-center line-clamp-6">
+          {text}
+        </p>
       </div>
     </div>
   )
@@ -81,7 +87,6 @@ export default function Reviews() {
     setAutoplay(false)
     next()
   }
-
   const handlePrev = () => {
     setAutoplay(false)
     prev()
@@ -95,11 +100,11 @@ export default function Reviews() {
 
   const getPosition = (i: number) => {
     const total = reviews.length
-    const prev = (index - 1 + total) % total
-    const next = (index + 1) % total
+    const prevIdx = (index - 1 + total) % total
+    const nextIdx = (index + 1) % total
     if (i === index) return 'center'
-    if (i === prev) return 'left'
-    if (i === next) return 'right'
+    if (i === prevIdx) return 'left'
+    if (i === nextIdx) return 'right'
     return 'hidden'
   }
 
@@ -129,7 +134,10 @@ export default function Reviews() {
       </div>
 
       {/* Carousel */}
-      <div className="relative flex items-center justify-center" style={{height: '320px'}}>
+      <div
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{height: 'clamp(380px, 60vw, 480px)'}}
+      >
         {reviews.map((r, i) => (
           <ReviewCard key={i} {...r} position={getPosition(i)} />
         ))}
@@ -137,11 +145,11 @@ export default function Reviews() {
         {/* Left arrow */}
         <button
           onClick={handlePrev}
-          className="absolute left-20 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
           aria-label="Previous review"
         >
           <svg
-            className="w-5 h-5 text-gray-600"
+            className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -154,11 +162,11 @@ export default function Reviews() {
         {/* Right arrow */}
         <button
           onClick={handleNext}
-          className="absolute right-20 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
           aria-label="Next review"
         >
           <svg
-            className="w-5 h-5 text-gray-600"
+            className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -168,6 +176,33 @@ export default function Reviews() {
           </svg>
         </button>
       </div>
+
+      {/* Dots */}
+      <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
+        {reviews.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              setAutoplay(false)
+              setIndex(i)
+            }}
+            className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+              i === index ? 'bg-brand w-4' : 'bg-gray-300 w-1.5'
+            }`}
+          />
+        ))}
+      </div>
+
+      {!autoplay && (
+        <div className="text-center mt-3">
+          <button
+            onClick={() => setAutoplay(true)}
+            className="text-xs text-gray-400 hover:text-brand transition cursor-pointer"
+          >
+            ↺ Resume autoplay
+          </button>
+        </div>
+      )}
     </section>
   )
 }
