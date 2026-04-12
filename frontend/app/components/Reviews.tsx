@@ -111,7 +111,7 @@ export default function Reviews() {
   return (
     <section className="py-16 px-4">
       {/* Header */}
-      <div className="text-center mb-10 space-y-1">
+      <div className="text-center space-y-1">
         <p className="text-sm uppercase tracking-widest text-gray-400">What our customers say</p>
         <h2 className="text-3xl font-bold tracking-tight">100% Five-Star Reviews</h2>
         <Link
@@ -178,7 +178,7 @@ export default function Reviews() {
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
+      {/* <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
         {reviews.map((_, i) => (
           <button
             key={i}
@@ -191,7 +191,7 @@ export default function Reviews() {
             }`}
           />
         ))}
-      </div>
+      </div> */}
 
       {!autoplay && (
         <div className="text-center mt-3">
