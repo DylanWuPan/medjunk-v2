@@ -48,10 +48,14 @@ const Posts = ({
   heading?: string
   subHeading?: string
 }) => (
-  <div>
-    {heading && <h2 className="text-3xl text-gray-900 sm:text-4xl lg:text-5xl">{heading}</h2>}
-    {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600">{subHeading}</p>}
-    <div className="pt-6 space-y-6">{children}</div>
+  <div className="w-full flex justify-center">
+    <div className="w-full max-w-4xl px-4">
+      {heading && <h2 className="text-3xl text-gray-900 sm:text-4xl lg:text-5xl">{heading}</h2>}
+
+      {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600">{subHeading}</p>}
+
+      <div className="pt-6 space-y-6">{children}</div>
+    </div>
   </div>
 )
 

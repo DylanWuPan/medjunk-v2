@@ -1,6 +1,8 @@
-'use client'
-
 import QuoteForm from '../components/QuoteForm'
+
+export const metadata = {
+  title: 'Free Quote',
+}
 
 export default function FreeQuotePage() {
   return (

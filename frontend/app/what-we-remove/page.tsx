@@ -1,5 +1,9 @@
 import Image from 'next/image'
 
+export const metadata = {
+  title: 'What We Remove',
+}
+
 export default function WhatWeRemovePage() {
   const sections = [
     {
