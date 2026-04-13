@@ -1,5 +1,5 @@
 import type {Metadata} from 'next'
-import Head from 'next/head'
+import Image from 'next/image'
 
 import PageBuilderPage from '@/app/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
@@ -59,11 +59,25 @@ export default async function Page(props: Props) {
   return (
     <div className="my-12 lg:my-24">
       <div className="container">
-        <div className="pb-6 border-b border-gray-100">
-          <h1 className="text-4xl text-gray-900 sm:text-5xl lg:text-7xl">{page.heading}</h1>
-          <p className="mt-4 text-base lg:text-lg leading-relaxed text-gray-600 uppercase font-light">
-            {page.subheading}
-          </p>
+        <div className="pb-6 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-10">
+          {/* Text */}
+          <div className="flex-1">
+            <h1 className="text-4xl text-gray-900 sm:text-5xl lg:text-7xl">{page.heading}</h1>
+            <p className="mt-4 text-base lg:text-lg leading-relaxed text-gray-600 uppercase font-light">
+              {page.subheading}
+            </p>
+          </div>
+
+          {/* Image */}
+          <div className="flex-1 flex justify-end">
+            <Image
+              src="/images/cover-photo-2.jpg"
+              alt="Page hero"
+              className="w-full max-w-md rounded-2xl object-cover"
+              width={2000}
+              height={2000}
+            />
+          </div>
         </div>
       </div>
       <PageBuilderPage page={page as GetPageQueryResult} />

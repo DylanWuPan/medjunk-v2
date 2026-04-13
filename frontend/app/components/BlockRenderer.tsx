@@ -30,19 +30,22 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     return (
       <div
         key={block._key}
+        className="w-full flex justify-center"
         data-sanity={dataAttr({
           id: pageId,
           type: pageType,
           path: `pageBuilder[_key=="${block._key}"]`,
         }).toString()}
       >
-        {React.createElement(Blocks[block._type], {
-          key: block._key,
-          block: block,
-          index: index,
-          pageId: pageId,
-          pageType: pageType,
-        })}
+        <div className="w-full max-w-4xl mx-auto px-4">
+          {React.createElement(Blocks[block._type], {
+            key: block._key,
+            block: block,
+            index: index,
+            pageId: pageId,
+            pageType: pageType,
+          })}
+        </div>
       </div>
     )
   }

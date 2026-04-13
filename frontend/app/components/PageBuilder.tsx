@@ -101,8 +101,16 @@ export default function PageBuilder({page}: PageBuilderPageProps) {
   })
 
   return pageBuilderSections && pageBuilderSections.length > 0 ? (
-    <RenderSections pageBuilderSections={pageBuilderSections} page={page} />
+    <div className="w-full flex justify-center">
+      <div className="w-full max-w-4xl px-4">
+        <RenderSections pageBuilderSections={pageBuilderSections} page={page} />
+      </div>
+    </div>
   ) : (
-    <RenderEmptyState page={page} />
+    <div className="w-full flex justify-center">
+      <div className="w-full max-w-4xl px-4">
+        <RenderEmptyState page={page} />
+      </div>
+    </div>
   )
 }
