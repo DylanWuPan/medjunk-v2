@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect, useCallback, useRef} from 'react'
 import {reviews} from './reviews'
 
 function StarRating() {
@@ -25,11 +25,15 @@ function ReviewCard({
   date,
   text,
   position,
+  onNext,
+  onPrev,
 }: {
   name: string
   date: string
   text: string
   position: 'left' | 'center' | 'right' | 'hidden'
+  onNext?: () => void
+  onPrev?: () => void
 }) {
   const initials = name
     .split(' ')
@@ -39,16 +43,20 @@ function ReviewCard({
     .toUpperCase()
 
   const styles: Record<string, string> = {
-    left: 'translate-x-[-55%] scale-75 opacity-30 z-0 pointer-events-none',
+    left: 'translate-x-[-65%] scale-75 opacity-30 z-0 pointer-events-none',
     center:
       'translate-x-0 scale-100 opacity-100 z-10 shadow-[0_0_30px_0px] shadow-brand/50 ring-1 ring-brand',
-    right: 'translate-x-[55%] scale-75 opacity-30 z-0 pointer-events-none',
+    right: 'translate-x-[65%] scale-75 opacity-30 z-0 pointer-events-none',
     hidden: 'translate-x-0 scale-75 opacity-0 z-0 pointer-events-none',
   }
 
   return (
     <div
       className={`rounded-3xl absolute w-[80vw] sm:w-full sm:max-w-xl transition-all duration-500 ease-in-out ${styles[position]}`}
+      onClick={() => {
+        if (position === 'left' && onPrev) onPrev()
+        if (position === 'right' && onNext) onNext()
+      }}
     >
       <div className="bg-white rounded-3xl p-5 sm:p-8 border border-gray-100 flex flex-col gap-3">
         <div className="flex flex-col items-center gap-2 text-center">
@@ -74,14 +82,11 @@ function ReviewCard({
 export default function Reviews() {
   const [index, setIndex] = useState(0)
   const [autoplay, setAutoplay] = useState(true)
+  const dragStartX = useRef<number | null>(null)
+  const SWIPE_THRESHOLD = 50
 
-  const next = useCallback(() => {
-    setIndex((i) => (i === reviews.length - 1 ? 0 : i + 1))
-  }, [])
-
-  const prev = useCallback(() => {
-    setIndex((i) => (i === 0 ? reviews.length - 1 : i - 1))
-  }, [])
+  const next = useCallback(() => setIndex((i) => (i === reviews.length - 1 ? 0 : i + 1)), [])
+  const prev = useCallback(() => setIndex((i) => (i === 0 ? reviews.length - 1 : i - 1)), [])
 
   const handleNext = () => {
     setAutoplay(false)
@@ -90,6 +95,25 @@ export default function Reviews() {
   const handlePrev = () => {
     setAutoplay(false)
     prev()
+  }
+
+  // Pointer events work for both mouse and touch
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragStartX.current = e.clientX
+  }
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (dragStartX.current === null) return
+    const delta = dragStartX.current - e.clientX
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      if (delta > 0) handleNext()
+      else handlePrev()
+    }
+    dragStartX.current = null
+  }
+
+  const onPointerLeave = () => {
+    dragStartX.current = null
   }
 
   useEffect(() => {
@@ -114,7 +138,6 @@ export default function Reviews() {
       <div className="text-center space-y-3">
         <p className="text-sm uppercase tracking-widest text-gray-400">What our customers say</p>
         <h2 className="text-3xl font-bold tracking-tight">100% Five-Star Reviews</h2>
-
         <div className="flex items-center justify-center gap-3 pt-1 flex-wrap">
           <Link
             href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2"
@@ -133,7 +156,6 @@ export default function Reviews() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </Link>
-
           <Link
             href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2#lrd=0x6cf165bb75082545:0x10449d63e2f1c953,3,,,,"
             target="_blank"
@@ -156,17 +178,25 @@ export default function Reviews() {
 
       {/* Carousel */}
       <div
-        className="relative flex items-center justify-center overflow-hidden"
+        className="relative flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none"
         style={{height: 'clamp(380px, 60vw, 480px)'}}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerLeave}
       >
         {reviews.map((r, i) => (
-          <ReviewCard key={i} {...r} position={getPosition(i)} />
+          <ReviewCard
+            key={i}
+            {...r}
+            position={getPosition(i)}
+            onNext={handleNext}
+            onPrev={handlePrev}
+          />
         ))}
 
-        {/* Left arrow */}
         <button
           onClick={handlePrev}
-          className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className="absolute left-[2%] sm:left-[25%] top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
           aria-label="Previous review"
         >
           <svg
@@ -180,10 +210,9 @@ export default function Reviews() {
           </svg>
         </button>
 
-        {/* Right arrow */}
         <button
           onClick={handleNext}
-          className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className="absolute right-[2%] sm:right-[25%] top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
           aria-label="Next review"
         >
           <svg
@@ -197,22 +226,6 @@ export default function Reviews() {
           </svg>
         </button>
       </div>
-
-      {/* Dots */}
-      {/* <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
-        {reviews.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              setAutoplay(false)
-              setIndex(i)
-            }}
-            className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              i === index ? 'bg-brand w-4' : 'bg-gray-300 w-1.5'
-            }`}
-          />
-        ))}
-      </div> */}
 
       {!autoplay && (
         <div className="text-center mt-3">

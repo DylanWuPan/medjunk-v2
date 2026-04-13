@@ -15,8 +15,8 @@ export default function Header() {
             <Image
               src="/images/icons/new-logo-white-square.jpeg"
               alt="Company Logo"
-              width={72}
-              height={72}
+              width={1000}
+              height={1000}
               className="h-14 w-14 sm:h-20 sm:w-20 object-contain backdrop-blur-lg rounded-xl"
               priority
             />
@@ -73,7 +73,7 @@ export default function Header() {
             {/* Mobile Controls */}
             <div className="flex md:hidden items-center gap-3">
               <Link
-                className="rounded-full bg-black text-white px-3 py-2 text-xs"
+                className="rounded-full bg-brand text-white px-3 py-2 text-md"
                 href="/free-quote"
               >
                 Free Quote!
@@ -99,23 +99,38 @@ export default function Header() {
             {/* Mobile Dropdown */}
             {menuOpen && (
               <div className="absolute top-25 left-0 w-full flex flex-col items-end text-right bg-gradient-to-l shadow from-white/100 to-white/40 p-4 gap-4 md:hidden z-50 animate-in slide-in-from-top duration-200 backdrop-blur-lg">
-                {' '}
-                <Link href="/about" className="w-full text-right">
+                <Link
+                  href="/about"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right"
+                >
                   About
                 </Link>
-                <Link href="/what-we-remove" className="w-full text-right">
+                <Link
+                  href="/what-we-remove"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right"
+                >
                   What We Remove
                 </Link>
-                <Link href="/pricing" className="w-full text-right">
+                <Link
+                  href="/pricing"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right"
+                >
                   Pricing
                 </Link>
-                <Link href="/contact" className="w-full text-right">
+                <Link
+                  href="/contact"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right"
+                >
                   Contact
                 </Link>
-                <Link href="/faqs" className="w-full text-right">
+                <Link href="/faqs" onClick={() => setMenuOpen(false)} className="w-full text-right">
                   FAQs
                 </Link>
-                <Link href="/blog" className="w-full text-right">
+                <Link href="/blog" onClick={() => setMenuOpen(false)} className="w-full text-right">
                   Blog
                 </Link>
               </div>
