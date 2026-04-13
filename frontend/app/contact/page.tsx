@@ -18,7 +18,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-16 gap-10">
       {/* Contact Info */}
       <div className="w-full max-w-xl text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight text-brand">Contact Us!</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-black">Contact Us!</h1>
         <p className="text-gray-500">
           We&apos;re fast, friendly, and local. Reach out any way you like.
         </p>

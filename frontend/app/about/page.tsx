@@ -99,7 +99,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-gray-50 py-10 px-4 border-t border-gray-100">
+      <section className="bg-gray-50 py-5 px-4 border-t border-gray-100">
         <div className="container max-w-5xl mx-auto py-20 px-4 bg-gray-50">
           <div className="text-center space-y-2 mb-12">
             <p className="text-sm uppercase tracking-widest text-gray-400">What drives us</p>

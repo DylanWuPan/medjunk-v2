@@ -17,7 +17,7 @@ export default function Header() {
               alt="Company Logo"
               width={1000}
               height={1000}
-              className="h-14 w-14 sm:h-20 sm:w-20 object-contain backdrop-blur-lg rounded-xl"
+              className="h-14 w-14 sm:h-20 sm:w-20 object-contain backdrop-blur-lg rounded-xl transition-transform duration-300 hover:scale-105"
               priority
             />
           </Link>
@@ -29,32 +29,58 @@ export default function Header() {
               className="hidden md:flex items-center gap-4 md:gap-6 leading-5 text-xs sm:text-base tracking-tight"
             >
               <li>
-                <Link href="/about" className="hover:underline">
+                <Link
+                  href="/"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/what-we-remove" className="hover:underline">
+                <Link
+                  href="/what-we-remove"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   What We Remove
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:underline">
+                <Link
+                  href="/pricing"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:underline">
+                <Link
+                  href="/contact"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/faqs" className="hover:underline">
+                <Link
+                  href="/faqs"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:underline">
+                <Link
+                  href="/blog"
+                  className="relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   Blog
                 </Link>
               </li>
@@ -62,7 +88,7 @@ export default function Header() {
               <li className="flex items-center sm:gap-4 md:gap-6">
                 <div className="hidden sm:block w-px h-6 bg-gray-900" />{' '}
                 <Link
-                  className="rounded-full flex gap-4 items-center bg-brand hover:bg-black focus:bg-black py-2 px-4 justify-center sm:py-3 sm:px-6 text-white transition-colors duration-200"
+                  className="rounded-full flex gap-4 items-center bg-brand hover:bg-black focus:bg-black hover:scale-[1.03] active:scale-[0.98] py-2 px-4 justify-center sm:py-3 sm:px-6 text-white transition-all duration-300"
                   href="/free-quote"
                 >
                   <span className="whitespace-nowrap">Free Quote!</span>
@@ -73,7 +99,7 @@ export default function Header() {
             {/* Mobile Controls */}
             <div className="flex md:hidden items-center gap-3">
               <Link
-                className="rounded-full bg-brand text-white px-3 py-2 text-md"
+                className="rounded-full bg-brand text-white px-3 py-2 text-md transition-all duration-300 hover:scale-[1.05] active:scale-[0.97]"
                 href="/free-quote"
               >
                 Free Quote!
@@ -100,37 +126,52 @@ export default function Header() {
             {menuOpen && (
               <div className="absolute top-25 left-0 w-full flex flex-col items-end text-right bg-gradient-to-l shadow from-white/100 to-white/40 p-4 gap-4 md:hidden z-50 animate-in slide-in-from-top duration-200 backdrop-blur-lg">
                 <Link
+                  href="/"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
+                  Home
+                </Link>
+                <Link
                   href="/about"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-right"
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
                 >
                   About
                 </Link>
                 <Link
                   href="/what-we-remove"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-right"
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
                 >
                   What We Remove
                 </Link>
                 <Link
                   href="/pricing"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-right"
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
                 >
                   Pricing
                 </Link>
                 <Link
                   href="/contact"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-right"
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
                 >
                   Contact
                 </Link>
-                <Link href="/faqs" onClick={() => setMenuOpen(false)} className="w-full text-right">
+                <Link
+                  href="/faqs"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   FAQs
                 </Link>
-                <Link href="/blog" onClick={() => setMenuOpen(false)} className="w-full text-right">
+                <Link
+                  href="/blog"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-right relative inline-block text-gray-900 transition-colors duration-200 hover:text-brand pr-2 after:content-[''] after:absolute after:right-0 after:-bottom-1 after:h-[2px] after:bg-brand after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                >
                   Blog
                 </Link>
               </div>
