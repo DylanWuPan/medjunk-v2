@@ -1,17 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import {useState, useEffect, useCallback, useRef} from 'react'
+import React from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {reviews} from './reviews'
 
 function StarRating() {
   return (
-    <div className="flex gap-0.5">
-      {[...Array(5)].map((_, i) => (
+    <div className="flex gap-0.5" aria-label="5 out of 5 stars">
+      {Array.from({length: 5}).map((_, i) => (
         <svg
           key={i}
           className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 fill-yellow-400"
           viewBox="0 0 20 20"
+          aria-hidden="true"
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
@@ -19,6 +21,16 @@ function StarRating() {
     </div>
   )
 }
+
+const POSITION_STYLES: Record<string, string> = {
+  left: 'translate-x-[-65%] scale-75 opacity-30 z-0 pointer-events-none',
+  center:
+    'translate-x-0 scale-100 opacity-100 z-10 shadow-[0_0_30px_0px] shadow-brand/50 ring-1 ring-brand',
+  right: 'translate-x-[65%] scale-75 opacity-30 z-0 pointer-events-none',
+  hidden: 'translate-x-0 scale-75 opacity-0 z-0 pointer-events-none',
+}
+
+type Position = keyof typeof POSITION_STYLES
 
 function ReviewCard({
   name,
@@ -31,31 +43,23 @@ function ReviewCard({
   name: string
   date: string
   text: string
-  position: 'left' | 'center' | 'right' | 'hidden'
+  position: Position
   onNext?: () => void
   onPrev?: () => void
 }) {
   const initials = name
     .split(' ')
-    .map((n: string) => n[0])
+    .map((n) => n[0])
     .join('')
     .slice(0, 2)
     .toUpperCase()
 
-  const styles: Record<string, string> = {
-    left: 'translate-x-[-65%] scale-75 opacity-30 z-0 pointer-events-none',
-    center:
-      'translate-x-0 scale-100 opacity-100 z-10 shadow-[0_0_30px_0px] shadow-brand/50 ring-1 ring-brand',
-    right: 'translate-x-[65%] scale-75 opacity-30 z-0 pointer-events-none',
-    hidden: 'translate-x-0 scale-75 opacity-0 z-0 pointer-events-none',
-  }
-
   return (
     <div
-      className={`rounded-3xl absolute w-[80vw] sm:w-full sm:max-w-xl transition-all duration-500 ease-in-out ${styles[position]}`}
+      className={`rounded-3xl absolute w-[80vw] sm:w-full sm:max-w-xl transition-all duration-500 ease-in-out ${POSITION_STYLES[position]}`}
       onClick={() => {
-        if (position === 'left' && onPrev) onPrev()
-        if (position === 'right' && onNext) onNext()
+        if (position === 'left') onPrev?.()
+        if (position === 'right') onNext?.()
       }}
     >
       <div className="bg-white rounded-3xl p-5 sm:p-8 border border-gray-100 flex flex-col gap-3">
@@ -79,39 +83,51 @@ function ReviewCard({
   )
 }
 
-export default function Reviews() {
+const GOOGLE_REVIEWS_URL =
+  'https://www.google.com/search?q=Medfield+Junk+Reviews&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR'
+const LEAVE_REVIEW_URL = `${GOOGLE_REVIEWS_URL}#lrd=0x6cf165bb75082545:0x10449d63e2f1c953,3,,,,`
+
+const ExternalLinkIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+  </svg>
+)
+
+export default function ReviewsDisplay() {
   const [index, setIndex] = useState(0)
   const [autoplay, setAutoplay] = useState(true)
   const dragStartX = useRef<number | null>(null)
   const SWIPE_THRESHOLD = 50
+  const total = reviews.length
 
-  const next = useCallback(() => setIndex((i) => (i === reviews.length - 1 ? 0 : i + 1)), [])
-  const prev = useCallback(() => setIndex((i) => (i === 0 ? reviews.length - 1 : i - 1)), [])
+  const next = useCallback(() => setIndex((i) => (i + 1) % total), [total])
+  const prev = useCallback(() => setIndex((i) => (i - 1 + total) % total), [total])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setAutoplay(false)
     next()
-  }
-  const handlePrev = () => {
+  }, [next])
+  const handlePrev = useCallback(() => {
     setAutoplay(false)
     prev()
-  }
+  }, [prev])
 
-  // Pointer events work for both mouse and touch
   const onPointerDown = (e: React.PointerEvent) => {
     dragStartX.current = e.clientX
   }
-
   const onPointerUp = (e: React.PointerEvent) => {
     if (dragStartX.current === null) return
     const delta = dragStartX.current - e.clientX
-    if (Math.abs(delta) > SWIPE_THRESHOLD) {
-      if (delta > 0) handleNext()
-      else handlePrev()
-    }
+    if (Math.abs(delta) > SWIPE_THRESHOLD) delta > 0 ? handleNext() : handlePrev()
     dragStartX.current = null
   }
-
   const onPointerLeave = () => {
     dragStartX.current = null
   }
@@ -122,8 +138,7 @@ export default function Reviews() {
     return () => clearInterval(timer)
   }, [autoplay, next])
 
-  const getPosition = (i: number) => {
-    const total = reviews.length
+  const getPosition = (i: number): Position => {
     const prevIdx = (index - 1 + total) % total
     const nextIdx = (index + 1) % total
     if (i === index) return 'center'
@@ -132,51 +147,36 @@ export default function Reviews() {
     return 'hidden'
   }
 
+  const navButtonClass =
+    'absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer'
+
   return (
     <section className="py-16 px-4">
-      {/* Header */}
       <div className="text-center space-y-3">
         <p className="text-sm uppercase tracking-widest text-gray-400">What our customers say</p>
         <h2 className="text-3xl font-bold tracking-tight">100% Five-Star Reviews</h2>
         <div className="flex items-center justify-center gap-3 pt-1 flex-wrap">
           <Link
-            href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2"
+            href={GOOGLE_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-white shadow-sm hover:shadow-md text-gray-800 transition"
           >
             See all reviews on Google
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
+            <ExternalLinkIcon />
           </Link>
           <Link
-            href="https://www.google.com/search?sca_esv=a7ab1f079d2ce5f0&sxsrf=ANbL-n5MlEBEMo15xu09Xkci70BhGlUwJw:1776037767906&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOZ7rfXm343NJgN88tNJZOg67IoTgEb6ATeeUcLB8N8OV0YbrEaGjINZiwU9piQvOwKn-2DH1BIbtlMj45sdl2ItECWqR&q=Medfield+Junk+Reviews&sa=X&ved=2ahUKEwjk342iwOmTAxUxG4YAHc6XHnwQ0bkNegQIOhAF&biw=1512&bih=828&dpr=2#lrd=0x6cf165bb75082545:0x10449d63e2f1c953,3,,,,"
+            href={LEAVE_REVIEW_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-brand hover:bg-black text-white shadow-sm hover:shadow-md transition"
           >
             Leave us a review
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
+            <ExternalLinkIcon />
           </Link>
         </div>
       </div>
 
-      {/* Carousel */}
       <div
         className="relative flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none"
         style={{height: 'clamp(380px, 60vw, 480px)'}}
@@ -196,7 +196,7 @@ export default function Reviews() {
 
         <button
           onClick={handlePrev}
-          className="absolute left-[2%] sm:left-[25%] top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className={`${navButtonClass} left-[2%] sm:left-[25%]`}
           aria-label="Previous review"
         >
           <svg
@@ -212,7 +212,7 @@ export default function Reviews() {
 
         <button
           onClick={handleNext}
-          className="absolute right-[2%] sm:right-[25%] top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+          className={`${navButtonClass} right-[2%] sm:right-[25%]`}
           aria-label="Next review"
         >
           <svg

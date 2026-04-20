@@ -8,7 +8,7 @@ import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery, townPagesQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import {dataAttr} from '@/sanity/lib/utils'
-import Reviews from './components/Reviews'
+import ReviewsDisplay from './components/ReviewsDisplay'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
@@ -140,7 +140,7 @@ export default async function Page() {
         </div>
       </div>
 
-      <Reviews />
+      <ReviewsDisplay />
 
       <div className="border-t border-gray-100 bg-gray-50">
         <div className="container">

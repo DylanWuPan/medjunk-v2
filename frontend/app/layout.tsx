@@ -77,6 +77,14 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
       <body>
+        {/*RECAPTCHA*/}
+        <Script
+          src={
+            'https://www.google.com/recaptcha/api.js?render=6LcYCQAsAAAAACEg8IF8fvPQQhMqyixGelhCUzL1'
+          }
+          strategy="afterInteractive"
+        />
+
         {/* Meta Pixel */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`

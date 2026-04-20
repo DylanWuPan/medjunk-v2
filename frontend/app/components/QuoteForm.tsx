@@ -5,13 +5,22 @@ import {useState} from 'react'
 
 type ToastType = 'success' | 'error'
 
+declare global {
+  interface Window {
+    grecaptcha: {
+      execute(siteKey: string, options: {action: string}): Promise<string>
+      ready(cb: () => void): void
+    }
+  }
+}
+
 function Toast({type, onClose}: {type: ToastType; onClose: () => void}) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center pb-8 px-4 pointer-events-none">
       <div
         className={`pointer-events-auto flex items-start gap-4 w-full max-w-sm
-          bg-white rounded-2xl shadow-2xl p-5 border animate-slide-up
-          ${type === 'success' ? 'border-green-100' : 'border-red-100'}`}
+        bg-white rounded-2xl shadow-2xl p-5 border animate-slide-up
+        ${type === 'success' ? 'border-green-100' : 'border-red-100'}`}
       >
         <div
           className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold"
@@ -53,7 +62,9 @@ export default function QuoteForm() {
     email: '',
     zip: '',
     details: '',
+    website: '', // honeypot
   })
+
   const [toast, setToast] = useState<ToastType | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -69,18 +80,46 @@ export default function QuoteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
     try {
+      // 1️⃣ Run reCAPTCHA
+      const token = await window.grecaptcha.execute('6LcYCQAsAAAAACEg8IF8fvPQQhMqyixGelhCUzL1', {
+        action: 'submit',
+      })
+
+      // 2️⃣ Verify token via serverless function
+      const recaptchaRes = await fetch('/api/verify-recaptcha', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({recaptchaToken: token}),
+      })
+
+      const recaptchaData = await recaptchaRes.json()
+      if (!recaptchaData.success) {
+        showToast('error')
+        return
+      }
+
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(form),
       })
+
       if (!res.ok) throw new Error('Failed')
+
       showToast('success')
-      setForm({name: '', phone: '', email: '', zip: '', details: ''})
+      setForm({
+        name: '',
+        phone: '',
+        email: '',
+        zip: '',
+        details: '',
+        website: '',
+      })
     } catch (err) {
-      showToast('error')
       console.error(err)
+      showToast('error')
     } finally {
       setLoading(false)
     }
@@ -103,7 +142,6 @@ export default function QuoteForm() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            type="text"
             name="name"
             placeholder="Name"
             value={form.name}
@@ -112,7 +150,6 @@ export default function QuoteForm() {
             className={inputClass}
           />
           <input
-            type="tel"
             name="phone"
             placeholder="Phone"
             value={form.phone}
@@ -121,7 +158,6 @@ export default function QuoteForm() {
             className={inputClass}
           />
           <input
-            type="email"
             name="email"
             placeholder="Email"
             value={form.email}
@@ -130,7 +166,6 @@ export default function QuoteForm() {
             className={inputClass}
           />
           <input
-            type="text"
             name="zip"
             placeholder="Zip Code"
             value={form.zip}
@@ -148,10 +183,21 @@ export default function QuoteForm() {
             className={inputClass}
           />
 
+          {/* honeypot */}
+          <input
+            type="text"
+            name="website"
+            value={form.website}
+            onChange={handleChange}
+            className="hidden"
+            autoComplete="off"
+            tabIndex={-1}
+          />
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand text-white font-semibold py-3 rounded-lg hover:bg-black transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-brand text-white font-semibold py-3 rounded-lg hover:bg-black transition disabled:opacity-50"
           >
             {loading ? 'Sending...' : 'Get My Free Quote!'}
           </button>
