@@ -106,7 +106,10 @@ export default function QuoteForm() {
         body: JSON.stringify(form),
       })
 
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        console.error(res)
+        throw new Error('Failed')
+      }
 
       showToast('success')
       setForm({
@@ -197,7 +200,7 @@ export default function QuoteForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand text-white font-semibold py-3 rounded-lg hover:bg-black transition disabled:opacity-50"
+            className="w-full bg-brand text-white font-semibold py-3 rounded-lg hover:bg-black transition disabled:opacity-50 cursor-pointer"
           >
             {loading ? 'Sending...' : 'Get My Free Quote!'}
           </button>
