@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: 'quote-request@medjunk.com',
       to: 'medfieldjunk@gmail.com',
+      bcc: 'dylanpan56@gmail.com',
       subject: `New Quote Request from ${name}`,
       html: `
         <!DOCTYPE html>
