@@ -34,6 +34,7 @@
   "dependencies": {
     "@google-cloud/recaptcha-enterprise": "^6.4.0",
     "@juggle/resize-observer": "^3.4.0",
+    "@vercel/analytics": "^2.0.1",
     "resend": "^6.10.0"
   }
 }

@@ -8,6 +8,7 @@ import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
+import {Analytics} from '@vercel/analytics/next'
 
 import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
@@ -134,6 +135,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           <Footer />
         </section>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
