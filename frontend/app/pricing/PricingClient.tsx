@@ -28,7 +28,7 @@ export default function PricingClient() {
       <div className="w-full h-80 bg-gray-200 rounded-2xl mb-16 flex items-center justify-center">
         <Image
           src="/images/pricing.jpg"
-          alt="Pricing Image"
+          alt="Medfield Junk truck used for local junk removal jobs"
           width={2000}
           height={2000}
           className="w-full h-full object-cover rounded-2xl"
@@ -82,7 +82,7 @@ export default function PricingClient() {
                 onClick={copyEmail}
                 className="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-3 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition text-sm font-medium text-gray-800 w-full justify-center cursor-pointer"
               >
-                <Image src="/images/icons/email-icon.png" width={18} height={18} alt="Email" />
+                <Image src="/images/icons/email-icon.png" width={18} height={18} alt="" />
                 {copied ? '✓ Copied!' : 'medfieldjunk@gmail.com'}
               </button>
 

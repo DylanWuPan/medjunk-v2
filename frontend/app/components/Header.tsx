@@ -14,7 +14,7 @@ export default function Header() {
           <Link className="flex items-center gap-2" href="/">
             <Image
               src="/images/icons/new-logo-white-square.jpeg"
-              alt="Company Logo"
+              alt="Medfield Junk home"
               width={1000}
               height={1000}
               className="h-14 w-14 sm:h-20 sm:w-20 object-contain backdrop-blur-lg rounded-xl transition-transform duration-300 hover:scale-105"
@@ -108,7 +108,9 @@ export default function Header() {
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="p-2"
-                aria-label="Toggle Menu"
+                aria-label="Toggle navigation menu"
+                aria-controls="mobile-navigation"
+                aria-expanded={menuOpen}
               >
                 <div
                   className={`w-5 h-[2px] bg-black mb-1 transition-transform duration-300 ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`}
@@ -124,6 +126,7 @@ export default function Header() {
 
             {/* Mobile Dropdown */}
             <div
+              id="mobile-navigation"
               className={`absolute top-25 left-0 w-full flex flex-col gap-3 md:hidden z-50 p-4 transition-all duration-300 ease-out transform-gpu
                 ${
                   menuOpen

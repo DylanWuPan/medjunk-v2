@@ -1,9 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'About',
-}
+import {pageMetadata} from '@/app/lib/seo'
+
+export const metadata = pageMetadata({
+  title: 'About Medfield Junk',
+  description:
+    'Meet Medfield Junk, a local junk removal company serving Medfield and Eastern Massachusetts with fast, reliable cleanout, hauling, donation, and recycling help.',
+  path: '/about',
+  image: '/images/truck.jpg',
+})
 
 export default function AboutPage() {
   return (

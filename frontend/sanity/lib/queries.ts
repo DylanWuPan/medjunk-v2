@@ -58,7 +58,11 @@ export const getPageQuery = defineQuery(`
 `)
 
 export const sitemapData = defineQuery(`
-  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
+  *[
+    (_type == "page" || _type == "post")
+    && defined(slug.current)
+    && (_type != "page" || !(slug.current in ["about", "blog", "contact", "faqs", "free-quote", "pricing", "what-we-remove"]))
+  ] | order(_type asc) {
     "slug": slug.current,
     _type,
     _updatedAt,
@@ -96,7 +100,11 @@ export const postPagesSlugs = defineQuery(`
 `)
 
 export const pagesSlugs = defineQuery(`
-  *[_type == "page" && defined(slug.current)]
+  *[
+    _type == "page"
+    && defined(slug.current)
+    && !(slug.current in ["about", "blog", "contact", "faqs", "free-quote", "pricing", "what-we-remove"])
+  ]
   {"slug": slug.current}
 `)
 

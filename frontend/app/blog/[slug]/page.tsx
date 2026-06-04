@@ -2,11 +2,13 @@ import type {Metadata, ResolvingMetadata} from 'next'
 import {notFound} from 'next/navigation'
 import {type PortableTextBlock} from 'next-sanity'
 import {Suspense} from 'react'
+import Script from 'next/script'
 
 import Avatar from '@/app/components/Avatar'
 import {MorePosts} from '@/app/components/Posts'
 import PortableText from '@/app/components/PortableText'
 import Image from '@/app/components/SanityImage'
+import {absoluteUrl, defaultDescription, siteName} from '@/app/lib/seo'
 import {sanityFetch} from '@/sanity/lib/live'
 import {postPagesSlugs, postQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
@@ -50,9 +52,25 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
         ? [{name: `${post.author.firstName} ${post.author.lastName}`}]
         : [],
     title: post?.title,
-    description: post?.excerpt,
+    description: post?.excerpt || defaultDescription,
+    alternates: {
+      canonical: absoluteUrl(`/blog/${params.slug}`),
+    },
     openGraph: {
+      title: post?.title || siteName,
+      description: post?.excerpt || defaultDescription,
+      url: absoluteUrl(`/blog/${params.slug}`),
+      siteName,
+      type: 'article',
+      publishedTime: post?.date,
+      modifiedTime: post?.date,
       images: ogImage ? [ogImage, ...previousImages] : previousImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post?.title || siteName,
+      description: post?.excerpt || defaultDescription,
+      images: ogImage ? [ogImage.url] : [absoluteUrl('/images/cover-photo.jpg')],
     },
   } satisfies Metadata
 }
@@ -65,8 +83,32 @@ export default async function PostPage(props: Props) {
     return notFound()
   }
 
+  const authorName =
+    post.author?.firstName && post.author?.lastName
+      ? `${post.author.firstName} ${post.author.lastName}`
+      : siteName
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || defaultDescription,
+    url: absoluteUrl(`/blog/${params.slug}`),
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Person',
+      name: authorName,
+    },
+    publisher: {
+      '@id': absoluteUrl('/#local-business'),
+    },
+  }
+
   return (
     <>
+      <Script id="article-json-ld" type="application/ld+json">
+        {JSON.stringify(articleJsonLd)}
+      </Script>
       <div className="">
         <div className="container my-12 lg:my-24 grid gap-12">
           <div>

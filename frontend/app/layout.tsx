@@ -13,11 +13,18 @@ import {Analytics} from '@vercel/analytics/next'
 import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
-import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
 import {handleError} from '@/app/client-utils'
+import {
+  absoluteUrl,
+  defaultDescription,
+  localBusinessJsonLd,
+  siteName,
+  siteUrl,
+  websiteJsonLd,
+} from '@/app/lib/seo'
 
 /**
  * Generate metadata for the page.
@@ -29,20 +36,24 @@ export async function generateMetadata(): Promise<Metadata> {
     // Metadata should never contain stega
     stega: false,
   })
-  const title = settings?.title || demo.title
-  const description = settings?.description || demo.description
+  const title = settings?.title || siteName
+  const description = settings?.description ? toPlainText(settings.description) : defaultDescription
 
   const ogImage = resolveOpenGraphImage(settings?.ogImage)
-  let metadataBase: URL | undefined = undefined
-  try {
-    metadataBase = settings?.ogImage?.metadataBase
-      ? new URL(settings.ogImage.metadataBase)
-      : undefined
-  } catch {
-    // ignore
-  }
+
   return {
-    metadataBase,
+    metadataBase: new URL(siteUrl),
+    applicationName: siteName,
+    category: 'Junk removal',
+    keywords: [
+      'junk removal Medfield MA',
+      'junk removal Eastern Massachusetts',
+      'furniture removal',
+      'mattress removal',
+      'appliance removal',
+      'cleanout services',
+      'yard waste removal',
+    ],
     icons: {
       icon: '/images/favicon.ico',
       shortcut: '/images/favicon.ico',
@@ -52,9 +63,38 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${title}`,
       default: title,
     },
-    description: toPlainText(description),
+    description,
+    alternates: {
+      canonical: absoluteUrl('/'),
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        'index': true,
+        'follow': true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
     openGraph: {
+      title,
+      description,
+      url: siteUrl,
+      siteName,
+      type: 'website',
       images: ogImage ? [ogImage] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ogImage ? [ogImage.url] : [absoluteUrl('/images/cover-photo.jpg')],
+    },
+    other: {
+      'geo.region': 'US-MA',
+      'geo.placename': 'Medfield',
     },
   }
 }
@@ -78,6 +118,12 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:shadow"
+        >
+          Skip to main content
+        </a>
         {/*RECAPTCHA*/}
         <Script
           src={
@@ -121,6 +167,12 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         <section className="min-h-screen pt-24">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
+          <Script id="local-business-json-ld" type="application/ld+json">
+            {JSON.stringify(localBusinessJsonLd())}
+          </Script>
+          <Script id="website-json-ld" type="application/ld+json">
+            {JSON.stringify(websiteJsonLd())}
+          </Script>
           {isDraftMode && (
             <>
               <DraftModeToast />
@@ -131,7 +183,9 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
           <Header />
-          <main className="">{children}</main>
+          <main id="main-content" className="">
+            {children}
+          </main>
           <Footer />
         </section>
         <SpeedInsights />

@@ -31,14 +31,14 @@ export default function ContactClient() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800 w-full sm:w-auto justify-center"
           >
-            <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="Phone" />
+            <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="" />
             (617) 922-9752
           </Link>
           <button
             onClick={copyEmail}
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800 w-full sm:w-auto justify-center cursor-pointer"
           >
-            <Image src="/images/icons/email-icon.png" width={20} height={20} alt="Email" />
+            <Image src="/images/icons/email-icon.png" width={20} height={20} alt="" />
             {copied ? '✓ Copied!' : 'medfieldjunk@gmail.com'}
           </button>
         </div>
@@ -51,7 +51,7 @@ export default function ContactClient() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800"
           >
-            <Image src="/images/icons/instagram-icon.png" width={20} height={20} alt="Instagram" />
+            <Image src="/images/icons/instagram-icon.png" width={20} height={20} alt="" />
             Instagram
           </Link>
           <Link
@@ -60,7 +60,7 @@ export default function ContactClient() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800"
           >
-            <Image src="/images/icons/tiktok-icon.png" width={20} height={20} alt="TikTok" />
+            <Image src="/images/icons/tiktok-icon.png" width={20} height={20} alt="" />
             TikTok
           </Link>
           <Link
@@ -69,7 +69,7 @@ export default function ContactClient() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800"
           >
-            <Image src="/images/icons/youtube-icon.png" width={20} height={20} alt="YouTube" />
+            <Image src="/images/icons/youtube-icon.png" width={20} height={20} alt="" />
             YouTube
           </Link>
           <Link
@@ -78,7 +78,7 @@ export default function ContactClient() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm hover:shadow-md transition text-sm font-medium text-gray-800"
           >
-            <Image src="/images/icons/facebook-icon.png" width={20} height={20} alt="Facebook" />
+            <Image src="/images/icons/facebook-icon.png" width={20} height={20} alt="" />
             Facebook
           </Link>
         </div>

@@ -1,10 +1,14 @@
 import {Suspense} from 'react'
 
 import {AllPosts} from '@/app/components/Posts'
+import {pageMetadata} from '@/app/lib/seo'
 
-export const metadata = {
-  title: 'Blog',
-}
+export const metadata = pageMetadata({
+  title: 'Junk Removal Blog',
+  description:
+    'Helpful junk removal tips from Medfield Junk, including cleanout planning, furniture removal, appliance removal, recycling, and donation advice.',
+  path: '/blog',
+})
 
 export default async function Page() {
   return (

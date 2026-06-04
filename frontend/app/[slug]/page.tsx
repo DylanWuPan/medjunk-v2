@@ -5,8 +5,8 @@ import PageBuilderPage from '@/app/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
 import {getPageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {GetPageQueryResult} from '@/sanity.types'
-import NotFound from '../not-found'
 import {notFound} from 'next/navigation'
+import {absoluteUrl, defaultDescription, siteName} from '@/app/lib/seo'
 
 type Props = {
   params: Promise<{slug: string}>
@@ -40,8 +40,26 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   })
 
   return {
-    title: page?.name,
-    description: page?.heading,
+    title: page?.name || page?.heading,
+    description: page?.subheading || page?.heading || defaultDescription,
+    alternates: {
+      canonical: absoluteUrl(`/${params.slug}`),
+    },
+    openGraph: {
+      title: page?.name || page?.heading || siteName,
+      description: page?.subheading || page?.heading || defaultDescription,
+      url: absoluteUrl(`/${params.slug}`),
+      siteName,
+      type: 'website',
+      images: [
+        {
+          url: absoluteUrl('/images/cover-photo-2.jpg'),
+          width: 1200,
+          height: 630,
+          alt: page?.heading || `${siteName} junk removal service`,
+        },
+      ],
+    },
   } satisfies Metadata
 }
 
@@ -69,7 +87,7 @@ export default async function Page(props: Props) {
           <div className="flex-1 flex justify-end">
             <Image
               src="/images/cover-photo-2.jpg"
-              alt="Page hero"
+              alt={page.heading || `${page.name} service page`}
               className="w-full max-w-md rounded-2xl object-cover"
               width={2000}
               height={2000}

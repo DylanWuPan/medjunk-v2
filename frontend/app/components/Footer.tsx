@@ -38,7 +38,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-black"
               >
-                <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="Phone" />
+                <Image src="/images/icons/phone-icon.png" width={20} height={20} alt="" />
                 (617) 922-9752
               </Link>
 
@@ -48,7 +48,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-black"
               >
-                <Image src="/images/icons/email-icon.png" width={20} height={20} alt="Email" />
+                <Image src="/images/icons/email-icon.png" width={20} height={20} alt="" />
                 medfieldjunk@gmail.com
               </Link>
             </div>
@@ -67,7 +67,7 @@ export default function Footer() {
                   src="/images/icons/instagram-icon.png"
                   width={20}
                   height={20}
-                  alt="Instagram"
+                  alt=""
                 />
                 @medfieldjunk
               </Link>
@@ -78,7 +78,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-black"
               >
-                <Image src="/images/icons/tiktok-icon.png" width={20} height={20} alt="TikTok" />
+                <Image src="/images/icons/tiktok-icon.png" width={20} height={20} alt="" />
                 @medfieldjunk
               </Link>
 
@@ -88,7 +88,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-black"
               >
-                <Image src="/images/icons/youtube-icon.png" width={20} height={20} alt="YouTube" />
+                <Image src="/images/icons/youtube-icon.png" width={20} height={20} alt="" />
                 @MedfieldJunk
               </Link>
 
@@ -102,7 +102,7 @@ export default function Footer() {
                   src="/images/icons/facebook-icon.png"
                   width={20}
                   height={20}
-                  alt="Facebook"
+                  alt=""
                 />
                 @medfieldjunk
               </Link>

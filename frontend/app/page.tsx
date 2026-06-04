@@ -9,6 +9,14 @@ import {settingsQuery, townPagesQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import {dataAttr} from '@/sanity/lib/utils'
 import ReviewsDisplay from './components/ReviewsDisplay'
+import {pageMetadata} from '@/app/lib/seo'
+
+export const metadata = pageMetadata({
+  title: 'Medfield Junk Removal',
+  description:
+    'Medfield Junk provides fast, local junk removal for furniture, mattresses, appliances, yard waste, cleanouts, and more across Medfield and Eastern Massachusetts.',
+  path: '/',
+})
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
@@ -65,7 +73,7 @@ export default async function Page() {
               <div className="flex items-start gap-4 bg-white/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-gray-100">
                 <Image
                   src="/images/profiles/rowan.PNG"
-                  alt="Cofounder 1"
+                  alt="Rowan Tracey, co-founder of Medfield Junk"
                   width={2000}
                   height={2000}
                   className="rounded-full w-20 h-20 object-cover shrink-0"
@@ -85,7 +93,7 @@ export default async function Page() {
               <div className="flex items-start gap-4 bg-white/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-gray-100">
                 <Image
                   src="/images/profiles/declan.PNG"
-                  alt="Cofounder 2"
+                  alt="Declan Bligh, co-founder of Medfield Junk"
                   width={2000}
                   height={2000}
                   className="rounded-full w-20 h-20 object-cover shrink-0"

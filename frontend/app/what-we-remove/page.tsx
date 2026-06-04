@@ -1,8 +1,14 @@
 import Image from 'next/image'
 
-export const metadata = {
+import {pageMetadata} from '@/app/lib/seo'
+
+export const metadata = pageMetadata({
   title: 'What We Remove',
-}
+  description:
+    'Medfield Junk removes furniture, mattresses, appliances, electronics, yard debris, construction debris, full cleanouts, and general clutter across Eastern Massachusetts.',
+  path: '/what-we-remove',
+  image: '/images/furniture-2.jpg',
+})
 
 export default function WhatWeRemovePage() {
   const sections = [
@@ -100,7 +106,10 @@ export default function WhatWeRemovePage() {
 
             {/* Text */}
             <div className="w-full md:w-1/2">
-              <h2 className="text-2xl font-semibold mb-3">✅ {section.title}</h2>
+              <h2 className="text-2xl font-semibold mb-3">
+                <span aria-hidden="true">✓ </span>
+                {section.title}
+              </h2>
               <p className="text-gray-700 mb-2">{section.items}</p>
               <p className="text-sm text-gray-500">{section.note}</p>
             </div>
