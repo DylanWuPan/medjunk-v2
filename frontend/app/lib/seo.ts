@@ -1,8 +1,6 @@
 import type {Metadata} from 'next'
 
-export const siteUrl = normalizeSiteUrl(
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://medfieldjunk.com',
-)
+export const siteUrl = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL || 'https://medjunk.com')
 
 export const siteName = 'Medfield Junk'
 export const businessPhone = '+16179229752'
@@ -95,23 +93,23 @@ export function localBusinessJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': absoluteUrl('/#local-business'),
-    name: siteName,
-    url: siteUrl,
-    logo: absoluteUrl('/images/icons/new-logo-square.jpeg'),
-    image: absoluteUrl('/images/cover-photo.jpg'),
-    email: businessEmail,
-    telephone: businessPhone,
-    priceRange: '$$',
-    description: defaultDescription,
-    areaServed: serviceAreas.map((name) => ({
+    'name': siteName,
+    'url': siteUrl,
+    'logo': absoluteUrl('/images/icons/new-logo-square.jpeg'),
+    'image': absoluteUrl('/images/cover-photo.jpg'),
+    'email': businessEmail,
+    'telephone': businessPhone,
+    'priceRange': '$$',
+    'description': defaultDescription,
+    'areaServed': serviceAreas.map((name) => ({
       '@type': 'Place',
       name,
     })),
-    address: {
+    'address': {
       '@type': 'PostalAddress',
-      addressLocality: 'Medfield',
-      addressRegion: 'MA',
-      addressCountry: 'US',
+      'addressLocality': 'Medfield',
+      'addressRegion': 'MA',
+      'addressCountry': 'US',
     },
     sameAs,
   }
@@ -122,9 +120,9 @@ export function websiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': absoluteUrl('/#website'),
-    name: siteName,
-    url: siteUrl,
-    publisher: {
+    'name': siteName,
+    'url': siteUrl,
+    'publisher': {
       '@id': absoluteUrl('/#local-business'),
     },
   }
