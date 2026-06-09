@@ -7,6 +7,7 @@ type ToastType = 'success' | 'error'
 
 declare global {
   interface Window {
+    fbq: (event: string, action: string) => void
     grecaptcha: {
       execute(siteKey: string, options: {action: string}): Promise<string>
       ready(cb: () => void): void
@@ -112,6 +113,9 @@ export default function QuoteForm() {
       }
 
       showToast('success')
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead')
+      }
       setForm({
         name: '',
         phone: '',
